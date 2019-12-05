@@ -72,7 +72,7 @@ class EditorController {
    */
   async show ({ params, request, response, view }) {
 
-    const {id} = params
+    const {id} = await params
     const note = await Note.findOrFail(id)
     response.json(note)
   }
@@ -103,7 +103,7 @@ class EditorController {
   async update ({ params, request, response }) {
 
     const {id} = params
-    const req = request.only(["_id","title","blocks"])
+    const req = request.only(["_id","blocks"])
     const note = await Note.findOrFail(id)
     note.merge({
 
@@ -111,7 +111,10 @@ class EditorController {
     })
     await note.save()
 
-    response.json(note)
+    response.json({
+
+      status:true
+    })
   }
 
   /**
